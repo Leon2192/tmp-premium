@@ -1,31 +1,39 @@
 import {
-    Box,
-    Grid,
-    Typography,
-    Button,
-    Divider,
-  } from "@mui/material";
-  import ChurchIcon from "@mui/icons-material/Church";
-  import CelebrationIcon from "@mui/icons-material/Celebration";
-  
-  const InfoEvent = () => {
-    return (
-      <Box
-    
-        sx={{
-          py: 6,
-          px: 2,
-          backgroundColor: "#fff",
-        }}
+  Box,
+  Grid,
+  Typography,
+  Button,
+  Divider,
+  Slide,
+} from "@mui/material";
+import ChurchIcon from "@mui/icons-material/Church";
+import CelebrationIcon from "@mui/icons-material/Celebration";
+import { useInView } from "react-intersection-observer";
+
+const InfoEvent = () => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+  });
+
+  return (
+    <Box
+      ref={ref}
+      sx={{
+        py: 6,
+        px: 2,
+        backgroundColor: "#fff",
+      }}
+    >
+      <Grid
+        container
+        spacing={4}
+        justifyContent="space-evenly"
+        alignItems="center"
       >
-        <Grid
-          container
-          spacing={4}
-          justifyContent="space-evenly"
-          alignItems="center"
-        >
-          {/* Columna Izquierda */}
-          <Grid item xs={12} md={6}>
+        {/* Columna Izquierda */}
+        <Grid item xs={12} md={6}>
+          <Slide in={inView} direction="left" timeout={800}>
             <Box sx={{ textAlign: "center" }}>
               <ChurchIcon sx={{ fontSize: 50, color: "#b0b0b0", mb: 1 }} />
               <Typography
@@ -76,10 +84,12 @@ import {
                 </Button>
               </a>
             </Box>
-          </Grid>
-  
-          {/* Columna Derecha */}
-          <Grid item xs={12} md={6}>
+          </Slide>
+        </Grid>
+
+        {/* Columna Derecha */}
+        <Grid item xs={12} md={6}>
+          <Slide in={inView} direction="right" timeout={800}>
             <Box sx={{ textAlign: "center" }}>
               <CelebrationIcon sx={{ fontSize: 50, color: "#b0b0b0", mb: 1 }} />
               <Typography
@@ -130,22 +140,22 @@ import {
                 </Button>
               </a>
             </Box>
-          </Grid>
+          </Slide>
         </Grid>
-  
-        {/* Divider al final */}
-        <Divider
-          sx={{
-            mt: 6,
-            mx: "auto",
-            width: "40px",
-            borderBottomWidth: 2,
-            borderColor: "#ccc",
-          }}
-        />
-      </Box>
-    );
-  };
-  
-  export default InfoEvent;
-  
+      </Grid>
+
+      {/* Divider al final */}
+      <Divider
+        sx={{
+          mt: 6,
+          mx: "auto",
+          width: "40px",
+          borderBottomWidth: 2,
+          borderColor: "#ccc",
+        }}
+      />
+    </Box>
+  );
+};
+
+export default InfoEvent;

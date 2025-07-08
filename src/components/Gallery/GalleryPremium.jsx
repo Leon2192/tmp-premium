@@ -1,5 +1,6 @@
-import { Box, Grid, Typography, Modal, Fade } from "@mui/material";
+import { Box, Grid, Typography, Modal, Fade, Zoom } from "@mui/material";
 import { useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const images = [
   "/images/test.jpeg",
@@ -24,8 +25,13 @@ const Gallery = () => {
     setSelectedImage(null);
   };
 
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <Box sx={{ py: 8, px: 2, maxWidth: "1200px", mx: "auto" }}>
+    <Box ref={ref} sx={{ py: 8, px: 2, maxWidth: "1200px", mx: "auto" }}>
       <Typography
         variant="h3"
         sx={{
@@ -42,24 +48,30 @@ const Gallery = () => {
       <Grid container spacing={2} justifyContent="center">
         {images.map((src, index) => (
           <Grid item key={index} xs={6} sm={6} md={3}>
-            <Box
-              component="img"
-              src={src}
-              alt={`Galería ${index + 1}`}
-              onClick={() => handleOpen(src)}
-              sx={{
-                width: "100%",
-                height: { xs: 160, sm: 220, md: 250 },
-                objectFit: "cover",
-                borderRadius: 2,
-                cursor: "pointer",
-                transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                "&:hover": {
-                  transform: "scale(1.05)",
-                  boxShadow: 3,
-                },
-              }}
-            />
+            <Zoom
+              in={inView}
+              timeout={400 + index * 100}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <Box
+                component="img"
+                src={src}
+                alt={`Galería ${index + 1}`}
+                onClick={() => handleOpen(src)}
+                sx={{
+                  width: "100%",
+                  height: { xs: 160, sm: 220, md: 250 },
+                  objectFit: "cover",
+                  borderRadius: 2,
+                  cursor: "pointer",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: 3,
+                  },
+                }}
+              />
+            </Zoom>
           </Grid>
         ))}
       </Grid>

@@ -1,15 +1,29 @@
-import { Box, Typography, Button, Modal, Fade, Backdrop, Divider } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Modal,
+  Fade,
+  Backdrop,
+  Divider,
+} from "@mui/material";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const Gift = () => {
   const [open, setOpen] = useState(false);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+  });
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <Box
+      ref={ref}
       sx={{
         py: 8,
         px: 2,
@@ -20,43 +34,49 @@ const Gift = () => {
         textAlign: "center",
       }}
     >
-      {/* Icono de regalo */}
-      <CardGiftcardIcon sx={{ fontSize: 60, color: "#b0b0b0", mb: 2 }} />
+      <Fade in={inView} timeout={1000}>
+        <Box
+          sx={{
+            transform: inView ? "translateY(0)" : "translateY(30px)",
+            transition: "transform 0.8s ease",
+          }}
+        >
+          <CardGiftcardIcon sx={{ fontSize: 60, color: "#b0b0b0", mb: 2 }} />
 
-      {/* Título cursiva */}
-      <Typography
-        variant="h5"
-        sx={{
-          fontFamily: "'Great Vibes', cursive",
-          fontWeight: "bold",
-          fontSize: { xs: "1.5rem", md: "2rem" },
-          maxWidth: 600,
-          mb: 4,
-        }}
-      >
-        ¡Nuestro mejor regalo es tu presencia! <br />
-        Peeero... si querés colaborar con nuestra luna de miel...
-      </Typography>
+          <Typography
+            variant="h5"
+            sx={{
+              fontFamily: "'Great Vibes', cursive",
+              fontWeight: "bold",
+              fontSize: { xs: "1.5rem", md: "2rem" },
+              maxWidth: 600,
+              mb: 4,
+            }}
+          >
+            ¡Nuestro mejor regalo es tu presencia! <br />
+            Peeero... si querés colaborar con nuestra luna de miel...
+          </Typography>
 
-      {/* Botón */}
-      <Button
-        variant="contained"
-        onClick={handleOpen}
-        sx={{
-          borderRadius: 999,
-          px: 4,
-          backgroundColor: "#d1c4e9",
-          color: "#4a148c",
-          boxShadow: "none",
-          "&:hover": {
-            backgroundColor: "#fff",
-            border: "2px solid #d1c4e9",
-            color: "#4a148c",
-          },
-        }}
-      >
-        Ver datos bancarios
-      </Button>
+          <Button
+            variant="contained"
+            onClick={handleOpen}
+            sx={{
+              borderRadius: 999,
+              px: 4,
+              backgroundColor: "#d1c4e9",
+              color: "#4a148c",
+              boxShadow: "none",
+              "&:hover": {
+                backgroundColor: "#fff",
+                border: "2px solid #d1c4e9",
+                color: "#4a148c",
+              },
+            }}
+          >
+            Ver datos bancarios
+          </Button>
+        </Box>
+      </Fade>
 
       {/* Modal */}
       <Modal
@@ -107,6 +127,7 @@ const Gift = () => {
           </Box>
         </Fade>
       </Modal>
+
       <Divider
         sx={{
           mt: 6,
