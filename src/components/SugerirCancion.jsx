@@ -45,10 +45,18 @@ const SuggestSong = () => {
 
       {/* Contenido con Fade */}
       <Fade in={inView} timeout={1000}>
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
           <Typography
             variant="h4"
             sx={{
+              fontFamily: "'Great Vibes', cursive",
               fontWeight: "bold",
               fontSize: { xs: "1.8rem", md: "2.2rem" },
               mb: 2,
@@ -71,6 +79,10 @@ const SuggestSong = () => {
           </Typography>
 
           <Button
+            component="a"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSf59-LbsKfKsKMH-d9Gt7q6xfSue8wgy4ZEyzUCDb4C9w2Qcg/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
             variant="contained"
             sx={{
               borderRadius: 999,
